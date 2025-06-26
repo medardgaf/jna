@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 50px; }
+        .container {
+            max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        button {
+            background-color: #28a745; color: white; border: none; cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        a {
+            display: block; margin-top: 15px; text-align: center; color: #007bff; text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Inscription</h2>
+        <form action="/inscrire" method="post">
+            <input type="text" name="prenom" placeholder="Votre prénom" required>
+            <input type="text" name="nom" placeholder="Votre nom" required>
+            <input type="email" name="email" placeholder="Votre email" required>
+            <button type="submit">S'inscrire</button>
+        </form>
+        <a href="/">Déjà inscrit ? Connectez-vous ici</a>
+    </div>
+</body>
+</html>

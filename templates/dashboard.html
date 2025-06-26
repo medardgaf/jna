@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mon compte - Cotisations</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f0f0f0; }
+        a.logout { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; }
+        a.logout:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bonjour {{ user.prenom }} {{ user.nom }}, voici vos cotisations :</h1>
+        {% if cotisations %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Montant (€)</th>
+            </tr>
+            {% for cotisation in cotisations %}
+            <tr>
+                <td>{{ cotisation.date }}</td>
+                <td>{{ cotisation.montant }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>Aucune cotisation enregistrée pour le moment.</p>
+        {% endif %}
+        <a href="/logout" class="logout">Déconnexion</a>
+    </div>
+</body>
+</html>

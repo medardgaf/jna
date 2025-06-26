@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0; padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        form input, form button {
+            padding: 10px;
+            margin: 5px 10px 15px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #f7f7f7;
+        }
+        .chart-container {
+            margin-top: 30px;
+        }
+        a.logout {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        a.logout:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenue, {{ user.prenom }} {{ user.nom }} (Admin)</h1>
+        <h2>Total des cotisations : {{ total }} €</h2>
+
+        <h3>Ajouter une cotisation</h3>
+        <form action="/ajouter_cotisation" method="post">
+            <input type="number" name="membre_id" placeholder="ID Membre" required>
+            <input type="number" step="0.01" name="montant" placeholder="Montant (€)" required>
+            <input type="date" name="date" required>
+            <button type="submit">Enregistrer</button>
+        </form>
+
+        <h3>Liste des membres inscrits</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+            </tr>
+            {% for membre in membres %}
+            <tr>
+                <td>{{ membre.id }}</td>
+                <td>{{ membre.prenom }}</td>
+                <td>{{ membre.nom }}</td>
+                <td>{{ membre.email }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="chart-container">
+            <canvas id="cotisationsChart" width="800" height="400"></canvas>
+        </div>
+
+        <h3>Historique des cotisations</h3>
+        <table>
+            <tr>
+                <th>ID Membre</th>
+                <th>Montant (€)</th>
+                <th>Date</th>
+            </tr>
+            {% for cotisation in cotisations %}
+            <tr>
+                <td>{{ cotisation.membre_id }}</td>
+                <td>{{ cotisation.montant }}</td>
+                <td>{{ cotisation.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="/logout" class="logout">Déconnexion</a>
+    </div>
+
+    <script>
+        const cotisations = {{ cotisations_json | tojson }};
+        
+        // Regrouper les cotisations par date
+        const dataByDate = {};
+        cotisations.forEach(c => {
+            if (dataByDate[c.date]) {
+                dataByDate[c.date] += c.montant;
+            } else {
+                dataByDate[c.date] = c.montant;
+            }
+        });
+
+        const labels = Object.keys(dataByDate).sort();
+        const dataValues = labels.map(date => dataByDate[date]);
+
+        const ctx = document.getElementById('cotisationsChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Cotisations par date (€)',
+                    backgroundColor: 'rgba(0,123,255,0.2)',
+                    borderColor: 'rgba(0,123,255,1)',
+                    data: dataValues,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Date' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Montant (€)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

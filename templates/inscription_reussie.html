@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription réussie</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 50px; text-align: center; }
+        .container {
+            max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        a {
+            display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Inscription réussie !</h2>
+        <p>Bienvenue {{ membre.prenom }} {{ membre.nom }}.</p>
+        <p>Votre identifiant est : <strong>{{ membre.id }}</strong></p>
+        <p>Utilisez cet ID pour vous connecter.</p>
+        <a href="/">Se connecter</a>
+    </div>
+</body>
+</html>
