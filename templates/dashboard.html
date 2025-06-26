@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8" />
     <title>Mon compte - Cotisations</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
@@ -18,21 +19,25 @@
         <h1>Bonjour {{ user.prenom }} {{ user.nom }}, voici vos cotisations :</h1>
         {% if cotisations %}
         <table>
-            <tr>
-                <th>Date</th>
-                <th>Montant (€)</th>
-            </tr>
-            {% for cotisation in cotisations %}
-            <tr>
-                <td>{{ cotisation.date }}</td>
-                <td>{{ cotisation.montant }}</td>
-            </tr>
-            {% endfor %}
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Montant (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cotisation in cotisations %}
+                <tr>
+                    <td>{{ cotisation.date }}</td>
+                    <td>{{ cotisation.montant }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
         {% else %}
         <p>Aucune cotisation enregistrée pour le moment.</p>
         {% endif %}
-        <a href="/logout" class="logout">Déconnexion</a>
+        <a href="{{ url_for('logout') }}" class="logout">Déconnexion</a>
     </div>
 </body>
 </html>
