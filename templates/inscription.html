@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8" />
     <title>Inscription</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 50px; }
@@ -23,18 +24,28 @@
         a:hover {
             text-decoration: underline;
         }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Inscription</h2>
-        <form action="/inscrire" method="post">
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ url_for('inscrire') }}" method="post">
             <input type="text" name="prenom" placeholder="Votre prénom" required>
             <input type="text" name="nom" placeholder="Votre nom" required>
             <input type="email" name="email" placeholder="Votre email" required>
             <button type="submit">S'inscrire</button>
         </form>
-        <a href="/">Déjà inscrit ? Connectez-vous ici</a>
+        <a href="{{ url_for('login') }}">Déjà inscrit ? Connectez-vous ici</a>
     </div>
 </body>
 </html>
